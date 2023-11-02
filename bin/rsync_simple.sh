@@ -6,7 +6,9 @@ start_time=$(date +%s)
 
 SOURCEDIR="$1"
 TARGETDIR="$2"
-rsync -a --stats --safe-links --ignore-existing --human-readable --inplace "$SOURCEDIR" "$TARGETDIR" > result_simple.log
+LOGFILE="$3"
+
+rsync -aL --stats --human-readable --inplace "$SOURCEDIR" "$TARGETDIR" > "$LOGFILE" 2>&1
 
 end_time=$(date +%s)
 duration=$((end_time - start_time))
