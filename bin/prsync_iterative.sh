@@ -45,7 +45,7 @@ start_time=$(date +%s)
 job_number=0
 for f in "$BATCHPREFIX"*; do
 	# logfile="njobs-$njobs-job-$f-$LOGFILE"
-	job_logfile="njobs-${njobs}-job-${job_number}-${LOGFILE}"
+	job_logfile="${LOGFILE}-njobs-${njobs}-job-${job_number}"
 	rsync -rL --stats  --inplace --human-readable --files-from="$f" "/" "$TARGETDIR" &> "$job_logfile" &
 	((job_number++))
 done;
