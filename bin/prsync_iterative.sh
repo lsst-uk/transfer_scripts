@@ -31,8 +31,8 @@ TRANSFERFILE="${4:-transfer_files.out}"
 BATCHPREFIX="${5:-batch}"
 njobs="${6:-2}"
 
-> "$TRANSFERFILE"
-find "$SOURCEDIR" -type f >> "$TRANSFERFILE"
+#> "$TRANSFERFILE"
+#find "$SOURCEDIR" -type f >> "$TRANSFERFILE"
 split -n l/"$njobs" "$TRANSFERFILE" "$BATCHPREFIX"
 
 end_time=$(date +%s)
