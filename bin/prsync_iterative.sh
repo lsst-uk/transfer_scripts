@@ -32,8 +32,9 @@ njobs="${5:-2}"
 
 job_number=0
 for f in "$BATCHPREFIX"*; do
-	job_logfile="njobs-${njobs}-job-${job_number}-${LOGFILE}"
-	rsync -rL --stats  --inplace --human-readable --files-from="$f" "$SOURCEDIR" "$TARGETDIR" &> "$job_logfile" &
+	job_logfile="${LOGFILE}-njobs-${njobs}-job-${job_number}"
+	echo "$f"
+	#rsync -rL --stats  --inplace --human-readable --files-from="$f" "$SOURCEDIR" "$TARGETDIR" &> "$job_logfile" &
 	((job_number++))
 done;
 wait 
