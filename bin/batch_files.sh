@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "running rsync in parallel"
+echo "creating batches from list of files"
 
 usage() {
   echo "Usage: $0 SOURCEDIR TARGETDIR LOGFILE TRANSFERFILE BATCHPREFIX njobs"
@@ -31,27 +31,9 @@ TRANSFERFILE="${4:-transfer_files.out}"
 BATCHPREFIX="${5:-batch}"
 njobs="${6:-2}"
 
-#> "$TRANSFERFILE"
-#find "$SOURCEDIR" -type f >> "$TRANSFERFILE"
-#split -n l/"$njobs" "$TRANSFERFILE" "$BATCHPREFIX"
-
-#end_time=$(date +%s)
-#duration=$((end_time - start_time))
-
-#echo "Elapsed Time splitting files: $duration seconds" >> "$LOGFILE"
-
-#start_time=$(date +%s)
-
-job_number=0
-for f in "$BATCHPREFIX"*; do
-	# logfile="njobs-$njobs-job-$f-$LOGFILE"
-	job_logfile="njobs-${njobs}-job-${job_number}-${LOGFILE}"
-	rsync -rL --stats  --inplace --human-readable --files-from="$f" "$SOURCEDIR" "$TARGETDIR" &> "$job_logfile" &
-	((job_number++))
-done;
-wait 
+split -n l/"$njobs" "$TRANSFERFILE" "$BATCHPREFIX"
 
 end_time=$(date +%s)
 duration=$((end_time - start_time))
 
-echo "Elapsed Time transferring files: $duration seconds" >> "$LOGFILE"
+echo "Elapsed Time splitting files: $duration seconds" >> "$LOGFILE"
