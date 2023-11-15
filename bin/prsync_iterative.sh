@@ -29,12 +29,13 @@ LOGFILE="${3:-log.out}"
 BATCHPREFIX="${4:-batch}"
 njobs="${5:-2}"
 
-
+echo "$BATCHPREFIX"
 job_number=0
+echo "let's go"
 for f in "$BATCHPREFIX"*; do
-	job_logfile="${LOGFILE}-njobs-${njobs}-job-${job_number}"
 	echo "$f"
-	#rsync -rL --stats  --inplace --human-readable --files-from="$f" "$SOURCEDIR" "$TARGETDIR" &> "$job_logfile" &
+	job_logfile="${LOGFILE}-njobs-${njobs}-job-${job_number}"
+	rsync -e "ssh -o ControlPath=~/.ssh/control/socket" -rL --stats --human-readable --files-from="$f" "$SOURCEDIR" "$TARGETDIR" &> "$job_logfile" &
 	((job_number++))
 done;
 wait 
